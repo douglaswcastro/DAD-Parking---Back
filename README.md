@@ -1,4 +1,4 @@
-# DAD-Parking - BACK-End
+# DAD-Parking - Back-End
 
 Desenvolvido para trabalho da matéria de Desenvolvimento de Aplicações Distribuídas na PUC Minas.
 
