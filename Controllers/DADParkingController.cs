@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DAD_Parking___Back.Controllers
-{    
-    [ApiController]
+{       
+    [Authorize]
     [Route("api/[controller]")]
-    public class DADParkingController : ControllerBase
+    public class DADParkingController : Controller
     {
         private DADParkingDbContext context;
 

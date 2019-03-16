@@ -10,7 +10,7 @@ namespace DAD_Parking___Back.Data
         public static void Initialize(IServiceProvider serviceProvider)
         {
             var context = serviceProvider.GetRequiredService<DADParkingDbContext>();
-            var userManager = serviceProvider.GetRequiredService<UserManager<DADParkingUser>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<DADParkingUser>>();            
             context.Database.EnsureCreated();
 
             if(!context.Users.Any())
@@ -22,7 +22,7 @@ namespace DAD_Parking___Back.Data
                     UserName = "Teste"
                 };
 
-                userManager.CreateAsync(user, "Teste");
+                userManager.CreateAsync(user, "Test3@User");
             }
         }
     }
