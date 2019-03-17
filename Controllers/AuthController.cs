@@ -41,10 +41,8 @@ namespace DAD_Parking___Back.Controllers
                 var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
 
                 //Check issuer and audience
-                var token = new JwtSecurityToken(
-                    issuer: "http://oec.com",
-                    audience: "http://oec.com",
-                    expires: DateTime.UtcNow.AddHours(1),
+                var token = new JwtSecurityToken(                    
+                    expires: DateTime.UtcNow.AddDays(5),
                     claims: claims,
                     signingCredentials: new Microsoft.IdentityModel.Tokens.SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256)
                 );

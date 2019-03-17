@@ -52,10 +52,8 @@ namespace DAD_Parking___Back
                 options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidAudience = "http://oec.com",
-                    ValidIssuer = "http://oec.com",
+                    ValidateIssuer = false,
+                    ValidateAudience = false,                    
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY))              
                 };
             });
