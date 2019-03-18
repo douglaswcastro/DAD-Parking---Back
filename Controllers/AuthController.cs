@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.Threading.Tasks;
 
 namespace DAD_Parking___Back.Controllers
 {       
@@ -23,10 +24,25 @@ namespace DAD_Parking___Back.Controllers
         {
             this.userManager = userManager;            
         }
+
+        [Authorize]
+        [HttpGet]
+        [Route("user")]
+        public async Task<IActionResult> GetUser() 
+        {
+            var user = await userManager.FindByNameAsync(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            return Ok(new 
+            {
+                id = user.Id,
+                username = user.UserName,
+                email = user.Email
+            }
+            );
+        }
         
         [HttpPost]
         [Route("login")]
-        public async System.Threading.Tasks.Task<IActionResult> LoginAsync([FromBody] LoginModel login)
+        public async Task<IActionResult> LoginAsync([FromBody] LoginModel login)
         {
             var user = await userManager.FindByNameAsync(login.Username);
 
@@ -39,12 +55,11 @@ namespace DAD_Parking___Back.Controllers
                 };
 
                 var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
-
-                //Check issuer and audience
+                
                 var token = new JwtSecurityToken(                    
                     expires: DateTime.UtcNow.AddDays(5),
                     claims: claims,
-                    signingCredentials: new Microsoft.IdentityModel.Tokens.SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256)
+                    signingCredentials: new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256)
                 );
 
                 return Ok( new

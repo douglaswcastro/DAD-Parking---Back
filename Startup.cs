@@ -25,6 +25,8 @@ namespace DAD_Parking___Back
 
         private const string KEY = "APPLICATION_TEST_KEY";
 
+        readonly string MyAllowSpecificOrigins = "CorsPolicy";
+
         public IConfiguration Configuration { get; }
     
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -39,6 +41,17 @@ namespace DAD_Parking___Back
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
+
+            services.AddCors(options => 
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.AllowAnyOrigin()
+                            .WithMethods("GET")
+                            .WithHeaders("authorization");
+                });
+            });
 
             services.AddAuthentication(options => 
             {
@@ -63,6 +76,7 @@ namespace DAD_Parking___Back
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {          
             SeedDatabase.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider);
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseAuthentication();
             app.UseMvc();
         }
