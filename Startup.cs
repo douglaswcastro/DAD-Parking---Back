@@ -48,8 +48,8 @@ namespace DAD_Parking___Back
                 builder =>
                 {
                     builder.AllowAnyOrigin()
-                            .WithMethods("GET")
-                            .WithHeaders("authorization");
+                            .WithMethods("GET", "POST")
+                            .WithHeaders("authorization", "content-type");
                 });
             });
 

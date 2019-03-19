@@ -44,7 +44,7 @@ namespace DAD_Parking___Back.Controllers
         [Route("login")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginModel login)
         {
-            var user = await userManager.FindByNameAsync(login.Username);
+            var user = await userManager.FindByEmailAsync(login.Email);
 
             if (user != null && await userManager.CheckPasswordAsync(user, login.Password))            
             {
@@ -65,7 +65,12 @@ namespace DAD_Parking___Back.Controllers
                 return Ok( new
                     {
                         token = new JwtSecurityTokenHandler().WriteToken(token),
-                        expiration = token.ValidTo
+                        expiration = token.ValidTo,
+                        user = new {
+                            id = user.Id,
+                            email = user.Email,
+                            username = user.UserName
+                        }
                     }
                 );
             }
