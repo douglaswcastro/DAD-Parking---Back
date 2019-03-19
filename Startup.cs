@@ -25,7 +25,7 @@ namespace DAD_Parking___Back
 
         private const string KEY = "APPLICATION_TEST_KEY";
 
-        readonly string MyAllowSpecificOrigins = "CorsPolicy";
+        readonly string CorsPolicy = "CorsPolicy";
 
         public IConfiguration Configuration { get; }
     
@@ -44,7 +44,7 @@ namespace DAD_Parking___Back
 
             services.AddCors(options => 
             {
-                options.AddPolicy(MyAllowSpecificOrigins,
+                options.AddPolicy(CorsPolicy,
                 builder =>
                 {
                     builder.AllowAnyOrigin()
@@ -76,7 +76,7 @@ namespace DAD_Parking___Back
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {          
             SeedDatabase.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider);
-            app.UseCors(MyAllowSpecificOrigins);
+            app.UseCors(CorsPolicy);
             app.UseAuthentication();
             app.UseMvc();
         }
