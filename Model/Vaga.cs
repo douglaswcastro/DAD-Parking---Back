@@ -4,12 +4,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAD_Parking___Back.Model
 {  
-    [Table("tarifa")]
-    public class Tarifa
+    [Table("vaga")]
+    public class Vaga
     {
         [Key]
-        public Guid TarifaId { get; set; }
-        public string TipoTarifa { get; set; }
+        [Column("vagaId")]
+        public Guid Id { get; set;}  
+
+        [Required(ErrorMessage = "Campo TipoVeiculo é obrigatório")]
         public string TipoVeiculo { get; set; }
-    }    
+    }        
 }

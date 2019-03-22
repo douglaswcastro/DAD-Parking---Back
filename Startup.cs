@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using DAD_Parking___Back.Data;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -12,7 +9,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
+using DAD_Parking___Back.Data;
+using DAD_Parking___Back.Extensions;
 
 namespace DAD_Parking___Back
 {
@@ -22,11 +20,6 @@ namespace DAD_Parking___Back
         {
             Configuration = configuration;            
         }
-
-        private const string KEY = "APPLICATION_TEST_KEY";
-
-        readonly string CorsPolicy = "CorsPolicy";
-
         public IConfiguration Configuration { get; }
     
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -38,45 +31,20 @@ namespace DAD_Parking___Back
             services.AddDbContext<DADParkingDbContext>(options => options.UseInMemoryDatabase("dad_parking"));
             services.AddIdentity<DADParkingUser, IdentityRole>()
                 .AddEntityFrameworkStores<DADParkingDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders();            
+
+            services.ConfigureCors();
+            services.ConfigureRepositoryWrapper();
+            services.ConfigureAuthentication();            
 
             services.AddMvc();
-
-            services.AddCors(options => 
-            {
-                options.AddPolicy(CorsPolicy,
-                builder =>
-                {
-                    builder.AllowAnyOrigin()
-                            .WithMethods("GET", "POST")
-                            .WithHeaders("authorization", "content-type");
-                });
-            });
-
-            services.AddAuthentication(options => 
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options => 
-            {
-                options.SaveToken = true;
-                options.RequireHttpsMetadata = false;
-                options.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    ValidateIssuer = false,
-                    ValidateAudience = false,                    
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY))              
-                };
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {          
             SeedDatabase.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider);
-            app.UseCors(CorsPolicy);
+            app.UseCors("CorsPolicy");
             app.UseAuthentication();
             app.UseMvc();
         }
