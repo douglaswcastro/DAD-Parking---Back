@@ -7,7 +7,7 @@ namespace DAD_Parking___Back.Model
     [Table("veiculo")]
     public class Veiculo
     { 
-        [Key]
+        [Key]        
         public string Placa { get; set; }
 
         [Required(ErrorMessage = "Campo Marca é obrigatório")]

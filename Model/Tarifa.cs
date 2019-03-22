@@ -8,7 +8,8 @@ namespace DAD_Parking___Back.Model
     public class Tarifa
     {
         [Key]
-        public Guid TarifaId { get; set; }
+        [Column("tarifaId")]
+        public Guid Id { get; set; }
         public string TipoTarifa { get; set; }
         public string TipoVeiculo { get; set; }
     }    

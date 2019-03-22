@@ -8,7 +8,8 @@ namespace DAD_Parking___Back.Model
     public class Cliente
     {
         [Key]
-        public Guid ClienteId { get; set; }
+        [Column("clienteId")]
+        public Guid Id { get; set; }
 
         [Required(ErrorMessage = "Campo Nome é obrigatório")]
         [StringLength(60, ErrorMessage = "Campo Nome não pode ter mais que 60 caracteres")]
