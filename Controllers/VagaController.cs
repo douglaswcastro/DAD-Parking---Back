@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -17,6 +18,26 @@ namespace DAD_Parking___Back.Controllers
         {
             _repoWrapper = repoWrapper;
         }
+
+        [HttpGet]
+        public IActionResult GetAllVagas()
+        {
+            try
+            {
+                var vagas = _repoWrapper.Vaga.GetAllVagas();
+
+                if(vagas.Any())
+                {
+                    return Ok(vagas);
+                }
+
+                return NoContent();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, "Internal server error." + ex.Message);
+            }
+        }
         
         [HttpPost]
         public IActionResult CreateVaga([FromBody] Vaga vaga)
@@ -33,7 +54,7 @@ namespace DAD_Parking___Back.Controllers
                     return BadRequest("Objeto vaga está inválido");
                 }
 
-                _repoWrapper.Vaga.Create(vaga);
+                _repoWrapper.Vaga.CreateVaga(vaga);
                 return CreatedAtRoute("VagaById", new { id = vaga.Id}, vaga);
             }
             catch (Exception ex)

@@ -33,7 +33,7 @@ namespace DAD_Parking___Back.Controllers
                     return BadRequest("Objeto cliente está inválido");
                 }
 
-                _repoWrapper.Cliente.Create(cliente);
+                _repoWrapper.Cliente.CreateCliente(cliente);
                 return CreatedAtRoute("ClienteById", new { id = cliente.Id}, cliente);
             }
             catch (Exception ex)

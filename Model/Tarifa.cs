@@ -12,5 +12,6 @@ namespace DAD_Parking___Back.Model
         public Guid Id { get; set; }
         public string TipoTarifa { get; set; }
         public string TipoVeiculo { get; set; }
+        public double Valor { get; set; }
     }    
 }

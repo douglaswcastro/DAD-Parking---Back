@@ -33,12 +33,49 @@ namespace DAD_Parking___Back.Controllers
                     return BadRequest("Objeto vinculo está inválido");
                 }
 
-                _repoWrapper.Vinculo.Create(vinculo);
+                _repoWrapper.Vinculo.CreateVinculo(vinculo);
                 return CreatedAtRoute("VinculoById", new { id = vinculo.Id}, vinculo);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, "Internal server error." + ex.Message);
+            }
+        }
+
+        [HttpGet("valorTotal/{id}")]
+        public IActionResult GetValorTotal(Guid id)
+        {
+            try
+            {
+                var vinculo = _repoWrapper.Vinculo.GetVinculoById(id);
+
+                if(vinculo == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    if(vinculo.Tarifa.TipoTarifa.ToLower() == "hora")
+                    {
+                        var tempoEstacionado = (vinculo.DataHoraFim - vinculo.DataHoraInicio).Hours;
+                        var valorTotal = tempoEstacionado * vinculo.Tarifa.Valor;
+                        return Ok(new {
+                            id = vinculo.Id,
+                            valorTotal = valorTotal
+                        });
+                    }
+                    else
+                    {
+                        return Ok(new {
+                            id = vinculo.Id,
+                            valorTotal = vinculo.Tarifa.Valor
+                        });
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, "Internal server error." + ex.Message);                
             }
         }
 

@@ -33,7 +33,7 @@ namespace DAD_Parking___Back.Controllers
                     return BadRequest("Objeto tarifa está inválido");
                 }
 
-                _repoWrapper.Tarifa.Create(tarifa);
+                _repoWrapper.Tarifa.CreateTarifa(tarifa);
                 return CreatedAtRoute("tarifa", new { id = tarifa.Id}, tarifa);
             }
             catch (Exception ex)

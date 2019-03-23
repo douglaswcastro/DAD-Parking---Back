@@ -33,7 +33,7 @@ namespace DAD_Parking___Back.Controllers
                     return BadRequest("Objeto estacionamento está inválido");
                 }
 
-                _repoWrapper.Estacionamento.Create(estacionamento);
+                _repoWrapper.Estacionamento.CreateEstacionamento(estacionamento);
                 return CreatedAtRoute("EstacionamentoById", new { id = estacionamento.Id}, estacionamento);
             }
             catch (Exception ex)
