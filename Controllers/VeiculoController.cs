@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using DAD_Parking___Back.Contracts;
 using DAD_Parking___Back.Repository;
 using DAD_Parking___Back.Model;
+using DAD_Parking___Back.Extensions;
 
 namespace DAD_Parking___Back.Controllers
 {       
@@ -47,7 +48,7 @@ namespace DAD_Parking___Back.Controllers
         {
             try
             {
-                if(veiculo == null)
+                if(veiculo.IsObjectNull())
                 {
                     return BadRequest(VEICULO_NULL_OBJECT);
                 }
@@ -58,7 +59,7 @@ namespace DAD_Parking___Back.Controllers
                 }
 
                 _repoWrapper.Veiculo.CreateVeiculo(veiculo);
-                return CreatedAtRoute("VeiculoByPlaca", new { id = veiculo.Placa}, veiculo);
+                return CreatedAtRoute("VeiculoById", new { id = veiculo.Placa}, veiculo);
             }
             catch (Exception ex)
             {
@@ -66,14 +67,14 @@ namespace DAD_Parking___Back.Controllers
             }
         }
 
-        [HttpGet("{placa}", Name = "VeiculoByPlaca")]
-        public IActionResult GetVeiculoByPlaca(string placa)
+        [HttpGet("{id}", Name = "VeiculoById")]
+        public IActionResult GetVeiculoById(Guid id)
         {
             try
             {
-                var veiculo = _repoWrapper.Veiculo.GetVeiculoByPlaca(placa);
+                var veiculo = _repoWrapper.Veiculo.GetVeiculoById(id);
 
-                if(veiculo == null)
+                if(veiculo.IsObjectNull())
                 {
                     return NotFound();
                 }
@@ -88,12 +89,12 @@ namespace DAD_Parking___Back.Controllers
             }
         }
 
-        [HttpPut("{placa}")]
-        public IActionResult UpdateVeiculo(string placa, [FromBody] Veiculo veiculo)
+        [HttpPut("{id}")]
+        public IActionResult UpdateVeiculo(Guid id, [FromBody] Veiculo veiculo)
         {
             try
             {
-                if(veiculo == null)
+                if(veiculo.IsObjectNull())
                 {
                     return BadRequest(VEICULO_NULL_OBJECT);
                 }
@@ -103,8 +104,8 @@ namespace DAD_Parking___Back.Controllers
                     return BadRequest(VEICULO_INVALID_OBJECT);
                 }
 
-                var dbVeiculo = _repoWrapper.Veiculo.GetVeiculoByPlaca(placa);
-                if(dbVeiculo == null)
+                var dbVeiculo = _repoWrapper.Veiculo.GetVeiculoById(id);
+                if(dbVeiculo.IsEmptyObject())
                 {
                     return NotFound();
                 }
@@ -119,13 +120,13 @@ namespace DAD_Parking___Back.Controllers
             }
         }
 
-        [HttpDelete("{placa}")]
-        public IActionResult DeleteCliente(string placa)
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCliente(Guid id)
         {
             try
             {
-                var veiculo = _repoWrapper.Veiculo.GetVeiculoByPlaca(placa);
-                if(veiculo == null)
+                var veiculo = _repoWrapper.Veiculo.GetVeiculoById(id);
+                if(veiculo.IsObjectNull())
                 {
                     return NotFound();
                 }

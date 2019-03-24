@@ -1,13 +1,15 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DAD_Parking___Back.Contracts;
 
 namespace DAD_Parking___Back.Model
 {  
     [Table("veiculo")]
-    public class Veiculo
+    public class Veiculo : IEntity
     { 
         [Key]        
+        public Guid Id { get; set; }
         public string Placa { get; set; }
 
         [Required(ErrorMessage = "Campo Marca é obrigatório")]

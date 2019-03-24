@@ -7,7 +7,7 @@ namespace DAD_Parking___Back.Contracts
     public interface IVeiculoRepository : IRepositoryBase<Veiculo>
     {
         IEnumerable<Veiculo> GetAllVeiculos();
-        Veiculo GetVeiculoByPlaca(String placaVeiculo);
+        Veiculo GetVeiculoById(Guid id);
         void CreateVeiculo(Veiculo veiculo);
         void UpdateVeiculo(Veiculo dbVeiculo, Veiculo veiculo);
         void DeleteVeiculo(Veiculo veiculo);

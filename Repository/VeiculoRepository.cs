@@ -17,6 +17,7 @@ namespace DAD_Parking___Back.Repository
 
         public void CreateVeiculo(Veiculo veiculo)
         {
+            veiculo.Id = Guid.NewGuid();
             Create(veiculo);
             Save();
         }
@@ -33,9 +34,9 @@ namespace DAD_Parking___Back.Repository
                     .OrderBy(veiculo => veiculo.Modelo);
         }
 
-        public Veiculo GetVeiculoByPlaca(String placaVeiculo)
+        public Veiculo GetVeiculoById(Guid id)
         {
-            return FindByCondition(veiculo => veiculo.Placa == placaVeiculo)
+            return FindByCondition(veiculo => veiculo.Id.Equals(id))
                     .FirstOrDefault();
         }
 

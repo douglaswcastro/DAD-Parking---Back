@@ -10,6 +10,7 @@ namespace DAD_Parking___Back.Extensions.Model
             dbVeiculo.Modelo = veiculo.Modelo;
             dbVeiculo.TipoVeiculo = veiculo.TipoVeiculo;
             dbVeiculo.Ano = veiculo.Ano;
+            dbVeiculo.Placa = veiculo.Placa;
         }
     }
 }
