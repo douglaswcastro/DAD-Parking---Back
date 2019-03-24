@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -20,6 +21,26 @@ namespace DAD_Parking___Back.Controllers
         public TarifaController(IRepositoryWrapper repoWrapper)
         {
             _repoWrapper = repoWrapper;
+        }
+
+        [HttpGet]
+        public IActionResult GetAllTarifas()
+        {
+            try
+            {
+                var tarifas = _repoWrapper.Tarifa.GetAllTarifas();
+
+                if (tarifas.Any())
+                {
+                    return Ok(tarifas);
+                }
+
+                return NoContent();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
+            }
         }
         
         [HttpPost]

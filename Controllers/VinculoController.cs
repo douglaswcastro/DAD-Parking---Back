@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -20,6 +21,26 @@ namespace DAD_Parking___Back.Controllers
         public VinculoController(IRepositoryWrapper repoWrapper)
         {
             _repoWrapper = repoWrapper;
+        }
+
+        [HttpGet]
+        public IActionResult GetAllVinculos()
+        {
+            try
+            {
+                var vinculos = _repoWrapper.Vinculo.GetAllVinculos();
+
+                if (vinculos.Any())
+                {
+                    return Ok(vinculos);
+                }
+
+                return NoContent();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
+            }
         }
         
         [HttpPost]

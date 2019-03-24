@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -8,7 +9,7 @@ using DAD_Parking___Back.Model;
 using DAD_Parking___Back.Extensions;
 
 namespace DAD_Parking___Back.Controllers
-{       
+{
     [Authorize]
     [Route("api/[controller]")]
     public class EstacionamentoController : Controller
@@ -21,24 +22,44 @@ namespace DAD_Parking___Back.Controllers
         {
             _repoWrapper = repoWrapper;
         }
-        
+
+        [HttpGet]
+        public IActionResult GetAllEstacionamentos()
+        {
+            try
+            {
+                var estacionamentos = _repoWrapper.Estacionamento.GetAllEstacionamentos();
+
+                if (estacionamentos.Any())
+                {
+                    return Ok(estacionamentos);
+                }
+
+                return NoContent();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
+            }
+        }
+
         [HttpPost]
         public IActionResult CreateEstacionamento([FromBody] Estacionamento estacionamento)
         {
             try
             {
-                if(estacionamento.IsObjectNull())
+                if (estacionamento.IsObjectNull())
                 {
                     return BadRequest(ESTACIONAMENTO_NULL_OBJECT);
                 }
 
-                if(!ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
                     return BadRequest(ESTACIONAMENTO_INVALID_OBJECT);
                 }
 
                 _repoWrapper.Estacionamento.CreateEstacionamento(estacionamento);
-                return CreatedAtRoute("EstacionamentoById", new { id = estacionamento.Id}, estacionamento);
+                return CreatedAtRoute("EstacionamentoById", new { id = estacionamento.Id }, estacionamento);
             }
             catch (Exception ex)
             {
@@ -53,7 +74,7 @@ namespace DAD_Parking___Back.Controllers
             {
                 var estacionamento = _repoWrapper.Estacionamento.GetEstacionamentoById(id);
 
-                if(estacionamento.IsObjectNull())
+                if (estacionamento.IsObjectNull())
                 {
                     return NotFound();
                 }
@@ -73,18 +94,18 @@ namespace DAD_Parking___Back.Controllers
         {
             try
             {
-                if(estacionamento.IsObjectNull())
+                if (estacionamento.IsObjectNull())
                 {
                     return BadRequest(ESTACIONAMENTO_NULL_OBJECT);
                 }
 
-                if(!ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
                     return BadRequest(ESTACIONAMENTO_INVALID_OBJECT);
                 }
 
                 var dbEstacionamento = _repoWrapper.Estacionamento.GetEstacionamentoById(id);
-                if(dbEstacionamento.IsEmptyObject())
+                if (dbEstacionamento.IsEmptyObject())
                 {
                     return NotFound();
                 }
@@ -93,7 +114,7 @@ namespace DAD_Parking___Back.Controllers
 
                 return NoContent();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
             }
@@ -105,7 +126,7 @@ namespace DAD_Parking___Back.Controllers
             try
             {
                 var estacionamento = _repoWrapper.Estacionamento.GetEstacionamentoById(id);
-                if(estacionamento.IsEmptyObject())
+                if (estacionamento.IsEmptyObject())
                 {
                     return NotFound();
                 }
@@ -114,7 +135,7 @@ namespace DAD_Parking___Back.Controllers
 
                 return NoContent();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
             }

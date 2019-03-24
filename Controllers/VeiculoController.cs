@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -19,6 +20,26 @@ namespace DAD_Parking___Back.Controllers
         public VeiculoController(IRepositoryWrapper repoWrapper)
         {
             _repoWrapper = repoWrapper;
+        }
+
+        [HttpGet]
+        public IActionResult GetAllVeiculos()
+        {
+            try
+            {
+                var veiculos = _repoWrapper.Veiculo.GetAllVeiculos();
+
+                if (veiculos.Any())
+                {
+                    return Ok(veiculos);
+                }
+
+                return NoContent();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
+            }
         }
         
         [HttpPost]

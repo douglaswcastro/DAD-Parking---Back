@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -22,6 +23,26 @@ namespace DAD_Parking___Back.Controllers
             _repoWrapper = repoWrapper;
         }
         
+        [HttpGet]
+        public IActionResult GetAllClientes()
+        {
+            try
+            {
+                var clientes = _repoWrapper.Cliente.GetAllClientes();
+
+                if (clientes.Any())
+                {
+                    return Ok(clientes);
+                }
+
+                return NoContent();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
+            }
+        }
+
         [HttpPost]
         public IActionResult CreateCliente([FromBody] Cliente cliente)
         {
