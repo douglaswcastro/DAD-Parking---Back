@@ -9,5 +9,7 @@ namespace DAD_Parking___Back.Contracts
         IEnumerable<Cliente> GetAllClientes();
         Cliente GetClienteById(Guid clienteId);
         void CreateCliente(Cliente cliente);
+        void UpdateCliente(Cliente dbCliente, Cliente cliente);
+        void DeleteCliente(Cliente cliente);
     }
 }

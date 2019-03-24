@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using DAD_Parking___Back.Contracts;
 using DAD_Parking___Back.Repository;
 using DAD_Parking___Back.Model;
+using DAD_Parking___Back.Extensions;
 
 namespace DAD_Parking___Back.Controllers
 {       
@@ -13,6 +14,9 @@ namespace DAD_Parking___Back.Controllers
     public class TarifaController : Controller
     {
         private IRepositoryWrapper _repoWrapper;
+        private const string INTERNAL_SERVER_MESSAGE = "Internal server error.";
+        private const string TARIFA_NULL_OBJECT = "Objeto tarifa está nulo";
+        private const string TARIFA_INVALID_OBJECT = "Objeto tarifa está inválido";
         public TarifaController(IRepositoryWrapper repoWrapper)
         {
             _repoWrapper = repoWrapper;
@@ -23,14 +27,14 @@ namespace DAD_Parking___Back.Controllers
         {
             try
             {
-                if(tarifa == null)
+                if(tarifa.IsObjectNull())
                 {
-                    return BadRequest("Objeto tarifa está nulo");
+                    return BadRequest(TARIFA_NULL_OBJECT);
                 }
 
                 if(!ModelState.IsValid)
                 {
-                    return BadRequest("Objeto tarifa está inválido");
+                    return BadRequest(TARIFA_INVALID_OBJECT);
                 }
 
                 _repoWrapper.Tarifa.CreateTarifa(tarifa);
@@ -38,7 +42,7 @@ namespace DAD_Parking___Back.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Internal server error." + ex.Message);
+                return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
             }
         }
 
@@ -49,7 +53,7 @@ namespace DAD_Parking___Back.Controllers
             {
                 var tarifa = _repoWrapper.Tarifa.GetTarifaById(id);
 
-                if(tarifa == null)
+                if(tarifa.IsObjectNull())
                 {
                     return NotFound();
                 }
@@ -60,7 +64,59 @@ namespace DAD_Parking___Back.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Internal server error." + ex.Message);
+                return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateTarifa(Guid id, [FromBody] Tarifa tarifa)
+        {
+            try
+            {
+                if(tarifa.IsObjectNull())
+                {
+                    return BadRequest(TARIFA_NULL_OBJECT);
+                }
+
+                if(!ModelState.IsValid)                
+                {
+                    return BadRequest(TARIFA_INVALID_OBJECT);
+                }
+
+                var dbTarifa = _repoWrapper.Tarifa.GetTarifaById(id);
+                if(dbTarifa.IsEmptyObject())
+                {
+                    return NotFound();
+                }
+
+                _repoWrapper.Tarifa.UpdateTarifa(dbTarifa, tarifa);
+
+                return NoContent();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteTarifa(Guid id)
+        {
+            try
+            {
+                var tarifa = _repoWrapper.Tarifa.GetTarifaById(id);
+                if(tarifa.IsEmptyObject())
+                {
+                    return NotFound();
+                }
+
+                _repoWrapper.Tarifa.DeleteTarifa(tarifa);
+
+                return NoContent();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
             }
         }
     }

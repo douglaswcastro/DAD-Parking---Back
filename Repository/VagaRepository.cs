@@ -1,4 +1,5 @@
 using DAD_Parking___Back.Contracts;
+using DAD_Parking___Back.Extensions.Model;
 using DAD_Parking___Back.Model;
 using DAD_Parking___Back.Data;
 using System;
@@ -22,6 +23,12 @@ namespace DAD_Parking___Back.Repository
             Save();            
         }
 
+        public void DeleteVaga(Vaga vaga)
+        {
+            Delete(vaga);
+            Save();
+        }
+
         public IEnumerable<Vaga> GetAllVagas()
         {
             return FindAll()
@@ -32,6 +39,13 @@ namespace DAD_Parking___Back.Repository
         {
             return FindByCondition(vaga => vaga.Id.Equals(vagaId))
                     .FirstOrDefault();
-        }        
+        }
+
+        public void UpdateVaga(Vaga dbVaga, Vaga vaga)
+        {
+            dbVaga.Map(vaga);
+            Update(dbVaga);
+            Save();
+        }
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using DAD_Parking___Back.Contracts;
 using DAD_Parking___Back.Repository;
 using DAD_Parking___Back.Model;
+using DAD_Parking___Back.Extensions;
 
 namespace DAD_Parking___Back.Controllers
 {       
@@ -14,6 +15,9 @@ namespace DAD_Parking___Back.Controllers
     public class VagaController : Controller
     {
         private IRepositoryWrapper _repoWrapper;
+        private const string INTERNAL_SERVER_MESSAGE = "Internal server error.";
+        private const string VAGA_NULL_OBJECT = "Objeto vaga está nulo";
+        private const string VAGA_INVALID_OBJECT = "Objeto vaga está inválido";
         public VagaController(IRepositoryWrapper repoWrapper)
         {
             _repoWrapper = repoWrapper;
@@ -35,7 +39,7 @@ namespace DAD_Parking___Back.Controllers
             }
             catch(Exception ex)
             {
-                return StatusCode(500, "Internal server error." + ex.Message);
+                return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
             }
         }
         
@@ -44,14 +48,14 @@ namespace DAD_Parking___Back.Controllers
         {
             try
             {
-                if(vaga == null)
+                if(vaga.IsObjectNull())
                 {
-                    return BadRequest("Objeto vaga está nulo");
+                    return BadRequest(VAGA_NULL_OBJECT);
                 }
 
                 if(!ModelState.IsValid)
                 {
-                    return BadRequest("Objeto vaga está inválido");
+                    return BadRequest(VAGA_INVALID_OBJECT);
                 }
 
                 _repoWrapper.Vaga.CreateVaga(vaga);
@@ -59,7 +63,7 @@ namespace DAD_Parking___Back.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Internal server error." + ex.Message);
+                return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
             }
         }
 
@@ -70,7 +74,7 @@ namespace DAD_Parking___Back.Controllers
             {
                 var vaga = _repoWrapper.Vaga.GetVagaById(id);
 
-                if(vaga == null)
+                if(vaga.IsEmptyObject())
                 {
                     return NotFound();
                 }
@@ -81,7 +85,59 @@ namespace DAD_Parking___Back.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Internal server error." + ex.Message);
+                return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateVaga(Guid id, [FromBody] Vaga vaga)
+        {
+            try
+            {
+                if(vaga.IsObjectNull())
+                {
+                    return BadRequest(VAGA_NULL_OBJECT);
+                }
+
+                if(!ModelState.IsValid)
+                {
+                    return BadRequest(VAGA_INVALID_OBJECT);
+                }
+
+                var dbVaga = _repoWrapper.Vaga.GetVagaById(id);
+                if(dbVaga.IsEmptyObject())
+                {
+                    return NotFound();
+                }
+
+                _repoWrapper.Vaga.UpdateVaga(dbVaga, vaga);
+
+                return NoContent();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteVaga(Guid id)
+        {
+            try
+            {
+                var vaga = _repoWrapper.Vaga.GetVagaById(id);
+                if(vaga.IsEmptyObject())
+                {
+                    return NotFound();
+                }
+
+                _repoWrapper.Vaga.DeleteVaga(vaga);
+
+                return NoContent();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
             }
         }
     }

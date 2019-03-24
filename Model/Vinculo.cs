@@ -1,10 +1,11 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DAD_Parking___Back.Contracts;
 
 namespace DAD_Parking___Back.Model
 {  
-    public class Vinculo
+    public class Vinculo : IEntity
     {   
         [Key]
         [Column("vinculoId")]

@@ -9,5 +9,7 @@ namespace DAD_Parking___Back.Contracts
         IEnumerable<Veiculo> GetAllVeiculos();
         Veiculo GetVeiculoByPlaca(String placaVeiculo);
         void CreateVeiculo(Veiculo veiculo);
+        void UpdateVeiculo(Veiculo dbVeiculo, Veiculo veiculo);
+        void DeleteVeiculo(Veiculo veiculo);
     }
 }

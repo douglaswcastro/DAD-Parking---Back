@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using DAD_Parking___Back.Contracts;
 using DAD_Parking___Back.Repository;
 using DAD_Parking___Back.Model;
+using DAD_Parking___Back.Extensions;
 
 namespace DAD_Parking___Back.Controllers
 {       
@@ -13,6 +14,9 @@ namespace DAD_Parking___Back.Controllers
     public class VinculoController : Controller
     {
         private IRepositoryWrapper _repoWrapper;
+        private const string INTERNAL_SERVER_MESSAGE = "Internal server error.";
+        private const string VINCULO_NULL_OBJECT = "Objeto vínculo está nulo";
+        private const string VINCULO_INVALID_OBJECT = "Objeto vínculo está inválido";
         public VinculoController(IRepositoryWrapper repoWrapper)
         {
             _repoWrapper = repoWrapper;
@@ -23,9 +27,9 @@ namespace DAD_Parking___Back.Controllers
         {
             try
             {
-                if(vinculo == null)
+                if(vinculo.IsObjectNull())
                 {
-                    return BadRequest("Objeto vinculo está nulo");
+                    return BadRequest(VINCULO_NULL_OBJECT);
                 }
 
                 if(!ModelState.IsValid)
@@ -49,7 +53,7 @@ namespace DAD_Parking___Back.Controllers
             {
                 var vinculo = _repoWrapper.Vinculo.GetVinculoById(id);
 
-                if(vinculo == null)
+                if(vinculo.IsObjectNull())
                 {
                     return NotFound();
                 }
@@ -75,7 +79,7 @@ namespace DAD_Parking___Back.Controllers
             }
             catch(Exception ex)
             {
-                return StatusCode(500, "Internal server error." + ex.Message);                
+                return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);                
             }
         }
 
@@ -86,7 +90,7 @@ namespace DAD_Parking___Back.Controllers
             {
                 var vinculo = _repoWrapper.Vinculo.GetVinculoById(id);
 
-                if(vinculo == null)
+                if(vinculo.IsObjectNull())
                 {
                     return NotFound();
                 }
@@ -97,7 +101,59 @@ namespace DAD_Parking___Back.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Internal server error." + ex.Message);
+                return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateVinculo(Guid id, [FromBody] Vinculo vinculo)
+        {
+            try
+            {
+                if(vinculo.IsObjectNull())
+                {
+                    return BadRequest(VINCULO_NULL_OBJECT);
+                }
+
+                if(!ModelState.IsValid)                
+                {
+                    return BadRequest(VINCULO_INVALID_OBJECT);
+                }
+
+                var dbVinculo = _repoWrapper.Vinculo.GetVinculoById(id);
+                if(dbVinculo.IsEmptyObject())
+                {
+                    return NotFound();
+                }
+
+                _repoWrapper.Vinculo.UpdateVinculo(dbVinculo, vinculo);
+
+                return NoContent();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteVinculo(Guid id)
+        {
+            try
+            {
+                var vinculo = _repoWrapper.Vinculo.GetVinculoById(id);
+                if(vinculo.IsEmptyObject())
+                {
+                    return NotFound();
+                }
+
+                _repoWrapper.Vinculo.DeleteVinculo(vinculo);
+
+                return NoContent();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
             }
         }
     }

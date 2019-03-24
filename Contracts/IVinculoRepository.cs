@@ -9,5 +9,7 @@ namespace DAD_Parking___Back.Contracts
         IEnumerable<Vinculo> GetAllVinculos();
         Vinculo GetVinculoById(Guid vinculodId);
         void CreateVinculo(Vinculo vinculo);
+        void UpdateVinculo(Vinculo dbVinculo, Vinculo vinculo);
+        void DeleteVinculo(Vinculo vinculo);
     }
 }

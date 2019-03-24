@@ -9,5 +9,7 @@ namespace DAD_Parking___Back.Contracts
         IEnumerable<Tarifa> GetAllTarifas();
         Tarifa GetTarifaById(Guid tarifaId);
         void CreateTarifa(Tarifa tarifa);
+        void UpdateTarifa(Tarifa dbTarifa, Tarifa tarifa);
+        void DeleteTarifa(Tarifa tarifa);
     }
 }

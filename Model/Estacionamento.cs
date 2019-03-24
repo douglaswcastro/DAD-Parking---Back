@@ -1,11 +1,12 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DAD_Parking___Back.Contracts;
 
 namespace DAD_Parking___Back.Model
 {  
     [Table("estacionamento")]
-    public class Estacionamento
+    public class Estacionamento : IEntity
     {
         [Key]
         [Column("estacionamentoId")]

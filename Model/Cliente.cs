@@ -1,11 +1,12 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DAD_Parking___Back.Contracts;
 
 namespace DAD_Parking___Back.Model
 {  
     [Table("cliente")]
-    public class Cliente
+    public class Cliente : IEntity
     {
         [Key]
         [Column("clienteId")]

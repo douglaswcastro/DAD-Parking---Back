@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using DAD_Parking___Back.Contracts;
 using DAD_Parking___Back.Repository;
 using DAD_Parking___Back.Model;
+using DAD_Parking___Back.Extensions;
 
 namespace DAD_Parking___Back.Controllers
 {       
@@ -13,6 +14,9 @@ namespace DAD_Parking___Back.Controllers
     public class EstacionamentoController : Controller
     {
         private IRepositoryWrapper _repoWrapper;
+        private const string INTERNAL_SERVER_MESSAGE = "Internal server error.";
+        private const string ESTACIONAMENTO_NULL_OBJECT = "Objeto estacionamento está nulo";
+        private const string ESTACIONAMENTO_INVALID_OBJECT = "Objeto estacionamento está inválido";
         public EstacionamentoController(IRepositoryWrapper repoWrapper)
         {
             _repoWrapper = repoWrapper;
@@ -23,14 +27,14 @@ namespace DAD_Parking___Back.Controllers
         {
             try
             {
-                if(estacionamento == null)
+                if(estacionamento.IsObjectNull())
                 {
-                    return BadRequest("Objeto estacionamento está nulo");
+                    return BadRequest(ESTACIONAMENTO_NULL_OBJECT);
                 }
 
                 if(!ModelState.IsValid)
                 {
-                    return BadRequest("Objeto estacionamento está inválido");
+                    return BadRequest(ESTACIONAMENTO_INVALID_OBJECT);
                 }
 
                 _repoWrapper.Estacionamento.CreateEstacionamento(estacionamento);
@@ -38,7 +42,7 @@ namespace DAD_Parking___Back.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Internal server error." + ex.Message);
+                return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
             }
         }
 
@@ -49,7 +53,7 @@ namespace DAD_Parking___Back.Controllers
             {
                 var estacionamento = _repoWrapper.Estacionamento.GetEstacionamentoById(id);
 
-                if(estacionamento == null)
+                if(estacionamento.IsObjectNull())
                 {
                     return NotFound();
                 }
@@ -60,7 +64,59 @@ namespace DAD_Parking___Back.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Internal server error." + ex.Message);
+                return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateEstacionamento(Guid id, [FromBody] Estacionamento estacionamento)
+        {
+            try
+            {
+                if(estacionamento.IsObjectNull())
+                {
+                    return BadRequest(ESTACIONAMENTO_NULL_OBJECT);
+                }
+
+                if(!ModelState.IsValid)
+                {
+                    return BadRequest(ESTACIONAMENTO_INVALID_OBJECT);
+                }
+
+                var dbEstacionamento = _repoWrapper.Estacionamento.GetEstacionamentoById(id);
+                if(dbEstacionamento.IsEmptyObject())
+                {
+                    return NotFound();
+                }
+
+                _repoWrapper.Estacionamento.UpdateEstacionamento(dbEstacionamento, estacionamento);
+
+                return NoContent();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteEstacionamento(Guid id)
+        {
+            try
+            {
+                var estacionamento = _repoWrapper.Estacionamento.GetEstacionamentoById(id);
+                if(estacionamento.IsEmptyObject())
+                {
+                    return NotFound();
+                }
+
+                _repoWrapper.Estacionamento.DeleteEstacionamento(estacionamento);
+
+                return NoContent();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
             }
         }
     }

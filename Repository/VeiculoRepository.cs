@@ -4,6 +4,7 @@ using System.Linq;
 using DAD_Parking___Back.Contracts;
 using DAD_Parking___Back.Model;
 using DAD_Parking___Back.Data;
+using DAD_Parking___Back.Extensions.Model;
 
 namespace DAD_Parking___Back.Repository
 {
@@ -20,6 +21,12 @@ namespace DAD_Parking___Back.Repository
             Save();
         }
 
+        public void DeleteVeiculo(Veiculo veiculo)
+        {
+            Delete(veiculo);
+            Save();
+        }
+
         public IEnumerable<Veiculo> GetAllVeiculos()
         {
             return FindAll()
@@ -30,6 +37,13 @@ namespace DAD_Parking___Back.Repository
         {
             return FindByCondition(veiculo => veiculo.Placa == placaVeiculo)
                     .FirstOrDefault();
+        }
+
+        public void UpdateVeiculo(Veiculo dbVeiculo, Veiculo veiculo)
+        {
+            dbVeiculo.Map(veiculo);
+            Update(dbVeiculo);
+            Save();
         }
     }
 }

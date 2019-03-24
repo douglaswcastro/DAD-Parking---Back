@@ -4,6 +4,7 @@ using System.Linq;
 using DAD_Parking___Back.Contracts;
 using DAD_Parking___Back.Model;
 using DAD_Parking___Back.Data;
+using DAD_Parking___Back.Extensions.Model;
 
 namespace DAD_Parking___Back.Repository
 {
@@ -21,6 +22,12 @@ namespace DAD_Parking___Back.Repository
             Save();
         }
 
+        public void DeleteTarifa(Tarifa tarifa)
+        {
+            Delete(tarifa);
+            Save();
+        }
+
         public IEnumerable<Tarifa> GetAllTarifas()
         {
             return FindAll()
@@ -31,6 +38,13 @@ namespace DAD_Parking___Back.Repository
         {
             return FindByCondition(tarifa => tarifa.Id.Equals(tarifaId))
                     .FirstOrDefault();
+        }
+
+        public void UpdateTarifa(Tarifa dbTarifa, Tarifa tarifa)
+        {
+            dbTarifa.Map(tarifa);
+            Update(dbTarifa);
+            Save();
         }
     }
 }
