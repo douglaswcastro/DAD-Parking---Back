@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using DAD_Parking___Back.Contracts;
+using Newtonsoft.Json;
 
 namespace DAD_Parking___Back.Model
 {  
@@ -9,6 +10,7 @@ namespace DAD_Parking___Back.Model
     public class Veiculo : IEntity
     { 
         [Key]        
+        [Column("veiculoId")]
         public Guid Id { get; set; }
         public string Placa { get; set; }
 
@@ -22,6 +24,9 @@ namespace DAD_Parking___Back.Model
         public int Ano { get; set; }
 
         [Required(ErrorMessage = "Campo TipoVeiculo é obrigatório")]
-        public string TipoVeiculo { get; set; }
+        public string TipoVeiculo { get; set; } 
+
+        [JsonIgnore]
+        public Cliente Cliente { get; set; }        
     }        
 }

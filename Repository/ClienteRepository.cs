@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using DAD_Parking___Back.Contracts;
 using DAD_Parking___Back.Model;
 using DAD_Parking___Back.Data;
@@ -30,16 +32,15 @@ namespace DAD_Parking___Back.Repository
 
         public IEnumerable<Cliente> GetAllClientes()
         {
-            return FindAll()
-                    .OrderBy(Cliente => Cliente.Nome);
+            return this.RepositoryContext.Clientes.Include(c => c.Veiculo).OrderBy(c => c.Nome);
         }
 
         public Cliente GetClienteById(Guid clienteId)
         {
-            return FindByCondition(cliente => cliente.Id.Equals(clienteId))
+            return this.RepositoryContext.Clientes.Where(cliente => cliente.Id.Equals(clienteId))
+                    .Include(c => c.Veiculo)
                     .FirstOrDefault();
         }
-
         public void UpdateCliente(Cliente dbCliente, Cliente cliente)
         {
             dbCliente.Map(cliente);

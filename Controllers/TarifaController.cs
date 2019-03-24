@@ -59,7 +59,7 @@ namespace DAD_Parking___Back.Controllers
                 }
 
                 _repoWrapper.Tarifa.CreateTarifa(tarifa);
-                return CreatedAtRoute("tarifa", new { id = tarifa.Id}, tarifa);
+                return CreatedAtRoute("TarifaById", new { id = tarifa.Id}, tarifa);
             }
             catch (Exception ex)
             {

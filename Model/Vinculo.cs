@@ -13,7 +13,11 @@ namespace DAD_Parking___Back.Model
         public Vaga Vaga { get; set; }
         public Cliente Cliente { get; set; }
         public Tarifa Tarifa { get; set; }
+
+        [DisplayFormat(DataFormatString="dd/MM/yyyy hh:mm")]
         public DateTime DataHoraInicio { get; set; }
+        
+        [DisplayFormat(DataFormatString="dd/MM/yyyy hh:mm")]
         public DateTime DataHoraFim { get; set; }
         public double ValorTotal { get; set; }
     }        

@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using DAD_Parking___Back.Contracts;
+using Newtonsoft.Json;
 
 namespace DAD_Parking___Back.Model
 {  
@@ -16,8 +17,12 @@ namespace DAD_Parking___Back.Model
         [StringLength(60, ErrorMessage = "Campo Nome não pode ter mais que 60 caracteres")]
         public string Nome { get; set; }
         public string CPF { get; set; }
-        public string Celular { get; set; }
+        public string Celular { get; set; }        
+
         [Required(ErrorMessage = "Campo Veiculo é obrigatório")]
         public Veiculo Veiculo { get; set; }        
+
+        [JsonIgnore]
+        public Guid VeiculoId { get; set; }
     }    
 }
