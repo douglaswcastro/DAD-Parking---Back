@@ -9,9 +9,15 @@ namespace DAD_Parking___Back.Model
     {   
         [Key]
         [Column("vinculoId")]
-        public Guid Id { get; set;}       
+        public Guid Id { get; set;}    
+        public Guid VagaId { get; set; }
+        [ForeignKey("VagaId")]
         public Vaga Vaga { get; set; }
+        public Guid ClienteId { get; set; }
+        [ForeignKey("ClienteId")]
         public Cliente Cliente { get; set; }
+        public Guid TarifaId { get; set; }
+        [ForeignKey("TarifaId")]
         public Tarifa Tarifa { get; set; }
 
         [DisplayFormat(DataFormatString="dd/MM/yyyy hh:mm")]

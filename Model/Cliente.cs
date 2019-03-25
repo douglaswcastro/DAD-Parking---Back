@@ -19,10 +19,10 @@ namespace DAD_Parking___Back.Model
         public string CPF { get; set; }
         public string Celular { get; set; }        
 
-        [Required(ErrorMessage = "Campo Veiculo é obrigatório")]
-        public Veiculo Veiculo { get; set; }        
-
         [JsonIgnore]
         public Guid VeiculoId { get; set; }
+        [ForeignKey("VeiculoId")]
+        [Required(ErrorMessage = "Campo Veiculo é obrigatório")]
+        public Veiculo Veiculo { get; set; }        
     }    
 }

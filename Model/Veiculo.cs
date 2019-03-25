@@ -26,6 +26,8 @@ namespace DAD_Parking___Back.Model
         [Required(ErrorMessage = "Campo TipoVeiculo é obrigatório")]
         public string TipoVeiculo { get; set; } 
 
+        public Guid ClienteId { get; set; }
+        [ForeignKey("ClienteId")]
         [JsonIgnore]
         public Cliente Cliente { get; set; }        
     }        
