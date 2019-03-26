@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace DAD_Parking___Back.Controllers
 {       
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")]
     public class AuthController : Controller
     {
