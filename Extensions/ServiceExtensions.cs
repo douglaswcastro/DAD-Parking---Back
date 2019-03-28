@@ -7,6 +7,7 @@ using System.Linq;
 using System.Collections.Generic;
 using DAD_Parking___Back.Contracts;
 using DAD_Parking___Back.Repository;
+using Microsoft.AspNetCore.Identity;
 
 namespace DAD_Parking___Back.Extensions
 {
@@ -30,6 +31,19 @@ namespace DAD_Parking___Back.Extensions
         public static void ConfigureRepositoryWrapper(this IServiceCollection services)
         {
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+        }
+
+        public static void ConfigurePasswordPolicies(this IServiceCollection services)
+        {
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 5;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredUniqueChars = 0;
+            });
         }
 
         public static void ConfigureSwagger(this IServiceCollection services)
