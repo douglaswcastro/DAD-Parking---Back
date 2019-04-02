@@ -34,10 +34,11 @@ namespace DAD_Parking___Back
                 .AddEntityFrameworkStores<DADParkingDbContext>()
                 .AddDefaultTokenProviders();            
 
-            services.ConfigureCors();
+            services.ConfigureCors();            
             services.ConfigureRepositoryWrapper();
-            services.ConfigureAuthentication();      
+            services.ConfigureAuthentication();                  
             services.ConfigureSwagger();      
+            services.ConfigurePasswordPolicies();
 
             services.AddMvc();
         }

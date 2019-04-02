@@ -50,11 +50,12 @@ namespace DAD_Parking___Back.Controllers
         [Route("register")]
         public async Task<IActionResult> RegisterUser([FromBody] LoginModel register)
         {
-            var checkUser = await userManager.FindByNameAsync(register.Email);
+            var checkUserName = await userManager.FindByNameAsync(register.Name);
+            var checkUserEmail = await userManager.FindByEmailAsync(register.Email);
 
-            if (checkUser != null)
+            if (checkUserName != null || checkUserEmail != null)
             {
-                return BadRequest("This email is already been used");
+                return BadRequest("This email/username is already been used");
             }
 
             var user = new DADParkingUser
