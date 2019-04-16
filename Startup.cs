@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 using DAD_Parking___Back.Data;
 using DAD_Parking___Back.Extensions;
 
@@ -33,9 +34,11 @@ namespace DAD_Parking___Back
                 .AddEntityFrameworkStores<DADParkingDbContext>()
                 .AddDefaultTokenProviders();            
 
-            services.ConfigureCors();
+            services.ConfigureCors();            
             services.ConfigureRepositoryWrapper();
-            services.ConfigureAuthentication();            
+            services.ConfigureAuthentication();                  
+            services.ConfigureSwagger();      
+            services.ConfigurePasswordPolicies();
 
             services.AddMvc();
         }
@@ -46,6 +49,11 @@ namespace DAD_Parking___Back
             SeedDatabase.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider);
             app.UseCors("CorsPolicy");
             app.UseAuthentication();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {                
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "DAD Parking");
+            });
             app.UseMvc();
         }
     }

@@ -55,7 +55,7 @@ namespace DAD_Parking___Back.Controllers
 
                 if(!ModelState.IsValid)
                 {
-                    return BadRequest("Objeto vinculo está inválido");
+                    return BadRequest(VINCULO_INVALID_OBJECT);
                 }
 
                 _repoWrapper.Vinculo.CreateVinculo(vinculo);
@@ -63,7 +63,7 @@ namespace DAD_Parking___Back.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Internal server error." + ex.Message);
+                return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
             }
         }
 
@@ -82,7 +82,7 @@ namespace DAD_Parking___Back.Controllers
                 {
                     if(vinculo.Tarifa.TipoTarifa.ToLower() == "hora")
                     {
-                        var tempoEstacionado = (vinculo.DataHoraFim - vinculo.DataHoraInicio).Hours;
+                        var tempoEstacionado = (vinculo.DataHoraFim - vinculo.DataHoraInicio).Value.Hours;
                         var valorTotal = tempoEstacionado * vinculo.Tarifa.Valor;
                         return Ok(new {
                             id = vinculo.Id,
