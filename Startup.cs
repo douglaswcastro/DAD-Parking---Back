@@ -27,8 +27,6 @@ namespace DAD_Parking___Back
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            //Using In Memory Database until SQL Server is not configured
-            //services.AddDbContext<DADParkingDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));            
             services.AddDbContext<DADParkingDbContext>(options =>
                options.UseSqlServer(
                    Configuration.GetConnectionString("dad_parking")));
