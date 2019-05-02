@@ -26,10 +26,13 @@ namespace DAD_Parking___Back
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
-        {            
+        {
             //Using In Memory Database until SQL Server is not configured
             //services.AddDbContext<DADParkingDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));            
-            services.AddDbContext<DADParkingDbContext>(options => options.UseInMemoryDatabase("dad_parking"));
+            services.AddDbContext<DADParkingDbContext>(options =>
+               options.UseSqlServer(
+                   Configuration.GetConnectionString("dad_parking")));
+            
             services.AddIdentity<DADParkingUser, IdentityRole>()
                 .AddEntityFrameworkStores<DADParkingDbContext>()
                 .AddDefaultTokenProviders();            

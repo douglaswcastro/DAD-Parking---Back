@@ -12,8 +12,15 @@ namespace DAD_Parking___Back.Data
         {                        
         }
 
+
+        public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Estacionamento> Estacionamentos { get; set; }
+        public DbSet<Tarifa> Tarifas { get; set; }
+        public DbSet<Veiculo> Veiculos { get; set; }
+        public DbSet<Vinculo> Vinculos { get; set; }
+        public DbSet<Vaga> Vagas { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
-        {   
+        {
             builder.Entity<Veiculo>()
                 .HasOne<Cliente>(v => v.Cliente)
                 .WithOne(c => c.Veiculo)
@@ -22,12 +29,5 @@ namespace DAD_Parking___Back.Data
 
             base.OnModelCreating(builder);
         }
-
-        public DbSet<Cliente> Clientes { get; set; }
-        public DbSet<Estacionamento> Estacionamentos { get; set; }
-        public DbSet<Tarifa> Tarifas { get; set; }
-        public DbSet<Veiculo> Veiculos { get; set; }
-        public DbSet<Vinculo> Vinculos { get; set; }
-        public DbSet<Vaga> Vagas { get; set; }
     }
 }
