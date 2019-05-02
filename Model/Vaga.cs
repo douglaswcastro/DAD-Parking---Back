@@ -12,6 +12,9 @@ namespace DAD_Parking___Back.Model
         [Column("vagaId")]
         public Guid Id { get; set;}  
 
+        [Required(ErrorMessage = "Campo NumeroVaga é obrigatório")]
+        public int NumeroVaga { get; set; }
+
         [Required(ErrorMessage = "Campo TipoVeiculo é obrigatório")]
         public string TipoVeiculo { get; set; }
     }        

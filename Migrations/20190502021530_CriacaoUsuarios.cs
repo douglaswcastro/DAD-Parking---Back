@@ -82,6 +82,7 @@ namespace DADParkingBack.Migrations
                 columns: table => new
                 {
                     vagaId = table.Column<Guid>(nullable: false),
+                    NumeroVaga = table.Column<int>(nullable: false),
                     TipoVeiculo = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
