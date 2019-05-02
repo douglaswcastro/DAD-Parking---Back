@@ -22,7 +22,7 @@ namespace DAD_Parking___Back.Extensions
                 builder =>
                 {
                     builder.AllowAnyOrigin()
-                            .WithMethods("GET", "POST")
+                            .AllowAnyMethod()                            
                             .WithHeaders("authorization", "content-type");
                 });
             });            
