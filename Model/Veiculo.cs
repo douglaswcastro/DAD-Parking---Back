@@ -31,6 +31,6 @@ namespace DAD_Parking___Back.Model
 
         [ForeignKey("ClienteId")]
         [JsonIgnore]
-        public Cliente Cliente { get; set; }        
+        public virtual Cliente Cliente { get; set; }        
     }        
 }

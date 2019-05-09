@@ -28,7 +28,8 @@ namespace DAD_Parking___Back
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DADParkingDbContext>(options =>
-               options.UseSqlServer(
+               options.UseLazyLoadingProxies()
+               .UseSqlServer(
                    Configuration.GetConnectionString("dad_parking")));
             
             services.AddIdentity<DADParkingUser, IdentityRole>()

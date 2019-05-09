@@ -24,6 +24,6 @@ namespace DAD_Parking___Back.Model
         
         [ForeignKey("VeiculoId")]
         [Required(ErrorMessage = "Campo Veiculo é obrigatório")]
-        public Veiculo Veiculo { get; set; }        
+        public virtual Veiculo Veiculo { get; set; }        
     }    
 }

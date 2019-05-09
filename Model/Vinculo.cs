@@ -16,18 +16,18 @@ namespace DAD_Parking___Back.Model
         public Guid VagaId { get; set; }
 
         [ForeignKey("VagaId")]
-        public Vaga Vaga { get; set; }
+        public virtual Vaga Vaga { get; set; }
 
         [JsonIgnore]
         public Guid ClienteId { get; set; }
         [ForeignKey("ClienteId")]
-        public Cliente Cliente { get; set; }
+        public virtual Cliente Cliente { get; set; }
         
         [JsonIgnore]
         public Guid TarifaId { get; set; }
 
         [ForeignKey("TarifaId")]
-        public Tarifa Tarifa { get; set; }
+        public virtual Tarifa Tarifa { get; set; }
 
         [Required]
         [DisplayFormat(DataFormatString="dd/MM/yyyy hh:mm")]

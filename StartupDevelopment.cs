@@ -28,7 +28,8 @@ namespace DAD_Parking___Back
         public void ConfigureDevelopmentServices(IServiceCollection services)
         {
             services.AddDbContext<DADParkingDbContext>(options =>
-               options.UseInMemoryDatabase("dad_parking"));
+               options.UseLazyLoadingProxies()
+               .UseInMemoryDatabase("dad_parking"));
             
             services.AddIdentity<DADParkingUser, IdentityRole>()
                 .AddEntityFrameworkStores<DADParkingDbContext>()
