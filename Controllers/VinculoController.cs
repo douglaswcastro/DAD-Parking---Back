@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -32,7 +33,18 @@ namespace DAD_Parking___Back.Controllers
 
                 if (vinculos.Any())
                 {
-                    return Ok(vinculos);
+                    var vinculosDTO = from vinculo in vinculos
+                                    select new {
+                                        Id = vinculo.Id,
+                                        NumeroVaga = vinculo.Vaga.NumeroVaga,
+                                        NomeCliente = vinculo.Cliente.Nome,
+                                        Modelo = vinculo.Cliente.Veiculo.Modelo,
+                                        DataHoraInicio = vinculo.DataHoraInicio,
+                                        DataHoraFim = vinculo.DataHoraFim,
+                                        ValorTotal = vinculo.ValorTotal
+                                    };
+                                    
+                    return Ok(vinculosDTO);
                 }
 
                 return NoContent();
