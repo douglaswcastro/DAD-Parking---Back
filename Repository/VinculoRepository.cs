@@ -46,5 +46,11 @@ namespace DAD_Parking___Back.Repository
             Update(dbVinculo);
             Save();
         }
+
+        public void UpdateVinculo(Vinculo vinculo)
+        {
+            Update(vinculo);
+            Save();
+        }
     }
 }

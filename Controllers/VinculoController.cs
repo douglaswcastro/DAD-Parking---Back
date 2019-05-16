@@ -93,24 +93,23 @@ namespace DAD_Parking___Back.Controllers
                 }
                 else
                 {
+                    var valorTotal = 0d;
+                    var dataHoraFim = DateTime.Now;
+
                     if (vinculo.Tarifa.TipoTarifa.ToLower() == "hora")
                     {
-                        var tempoEstacionado = (vinculo.DataHoraFim - vinculo.DataHoraInicio).Value.Hours;
-                        var valorTotal = tempoEstacionado * vinculo.Tarifa.Valor;
-                        return Ok(new
-                        {
-                            id = vinculo.Id,
-                            valorTotal = valorTotal
-                        });
+                        var tempoEstacionado = (dataHoraFim - vinculo.DataHoraInicio).Hours;
+                        valorTotal = tempoEstacionado * vinculo.Tarifa.Valor;
                     }
                     else
                     {
-                        return Ok(new
-                        {
-                            id = vinculo.Id,
-                            valorTotal = vinculo.Tarifa.Valor
-                        });
+                        valorTotal = vinculo.Tarifa.Valor;                        
                     }
+
+                    vinculo.ValorTotal = valorTotal;
+                    vinculo.DataHoraFim = dataHoraFim;
+
+                    return Ok(vinculo);
                 }
             }
             catch (Exception ex)

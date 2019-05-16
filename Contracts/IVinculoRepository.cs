@@ -10,6 +10,8 @@ namespace DAD_Parking___Back.Contracts
         Vinculo GetVinculoById(Guid vinculodId);
         void CreateVinculo(Vinculo vinculo);
         void UpdateVinculo(Vinculo dbVinculo, Vinculo vinculo);
+
+        void UpdateVinculo(Vinculo vinculo);
         void DeleteVinculo(Vinculo vinculo);
     }
 }
