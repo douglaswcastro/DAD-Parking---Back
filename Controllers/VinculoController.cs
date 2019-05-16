@@ -131,7 +131,7 @@ namespace DAD_Parking___Back.Controllers
                 }
                 else
                 {
-                    return Ok(TransformVinculo(vinculo));
+                    return Ok(vinculo);
                 }
             }
             catch (Exception ex)
@@ -190,17 +190,6 @@ namespace DAD_Parking___Back.Controllers
             {
                 return StatusCode(500, INTERNAL_SERVER_MESSAGE + ex.Message);
             }
-        }
-
-        private Vinculo TransformVinculo(Vinculo vinculo)
-        {
-            var settings = new Newtonsoft.Json.JsonSerializerSettings
-            {
-                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            };
-
-            var jsonVinculo = Newtonsoft.Json.JsonConvert.SerializeObject(vinculo, vinculo.GetType().BaseType, settings);            
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<Vinculo>(jsonVinculo);
         }
     }
 }
