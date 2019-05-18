@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DADParkingBack.Migrations
 {
     [DbContext(typeof(DADParkingDbContext))]
-    [Migration("20190518020832_Vinculo")]
-    partial class Vinculo
+    [Migration("20190518135352_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

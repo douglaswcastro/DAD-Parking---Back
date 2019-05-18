@@ -31,7 +31,7 @@ namespace DAD_Parking___Back.Repository
         public IEnumerable<Vinculo> GetAllVinculos()
         {
             return FindAll()
-                    .OrderBy(vinculo => vinculo.Cliente);
+                    .OrderBy(vinculo => vinculo.Cliente.Nome);
         }
 
         public Vinculo GetVinculoById(Guid vinculodId)
