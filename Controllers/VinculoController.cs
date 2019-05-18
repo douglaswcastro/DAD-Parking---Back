@@ -99,11 +99,13 @@ namespace DAD_Parking___Back.Controllers
                     if (vinculo.Tarifa.TipoTarifa.ToLower() == "hora")
                     {
                         var tempoEstacionado = (dataHoraFim - vinculo.DataHoraInicio).Hours;
+                        var tempoEstacionadomin = (dataHoraFim - vinculo.DataHoraInicio).Minutes;
                         valorTotal = tempoEstacionado * vinculo.Tarifa.Valor;
+                        valorTotal += (tempoEstacionadomin * vinculo.Tarifa.Valor) / 60;
                     }
                     else
                     {
-                        valorTotal = vinculo.Tarifa.Valor;                        
+                        valorTotal = vinculo.Tarifa.Valor;
                     }
 
                     vinculo.ValorTotal = valorTotal;
