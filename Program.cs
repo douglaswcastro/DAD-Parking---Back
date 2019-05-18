@@ -19,11 +19,9 @@ namespace DAD_Parking___Back
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) {
-            var assemblyName = typeof(Startup).GetTypeInfo().Assembly.FullName;
             
             return WebHost.CreateDefaultBuilder(args)
-                .UseStartup(assemblyName)
-                .UseUrls("http://localhost:5000");
+                .UseStartup<Startup>();
         }
     }
 }
