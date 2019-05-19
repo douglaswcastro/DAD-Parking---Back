@@ -42,7 +42,12 @@ namespace DAD_Parking___Back.Repository
 
         public void UpdateVinculo(Vinculo dbVinculo, Vinculo vinculo)
         {
+            dbVinculo.Tarifa = this.RepositoryContext.Tarifas.SingleOrDefault(t => t.Id.Equals(vinculo.Tarifa.Id));
+            dbVinculo.Cliente = this.RepositoryContext.Clientes.SingleOrDefault(c => c.Id.Equals(vinculo.Cliente.Id));
+            dbVinculo.Vaga = this.RepositoryContext.Vagas.SingleOrDefault(v => v.Id.Equals(vinculo.Vaga.Id));
+
             dbVinculo.Map(vinculo);
+
             Update(dbVinculo);
             Save();
         }

@@ -7,6 +7,7 @@ namespace DAD_Parking___Back.Extensions.Model
         public static void Map(this Vaga dbVaga, Vaga vaga)
         {
             dbVaga.TipoVeiculo = vaga.TipoVeiculo;
+            dbVaga.NumeroVaga = vaga.NumeroVaga;
         }
     }
 }

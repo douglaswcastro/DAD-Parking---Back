@@ -9,7 +9,7 @@ namespace DAD_Parking___Back.Extensions.Model
             dbCliente.CPF = cliente.CPF;
             dbCliente.Celular = cliente.Celular;
             dbCliente.Nome = cliente.Nome;
-            dbCliente.Veiculo = cliente.Veiculo;
+            dbCliente.Veiculo.Map(cliente.Veiculo);
         }
     }
 }
